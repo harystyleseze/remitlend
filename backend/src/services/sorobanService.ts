@@ -337,6 +337,19 @@ class SorobanService {
       ...(resultXdr !== undefined ? { resultXdr } : {}),
     };
   }
+  /**
+   * Ping the Stellar RPC server to verify connectivity.
+   * Returns "ok" on success or "error" if unreachable.
+   */
+  async ping(): Promise<"ok" | "error"> {
+    try {
+      const server = this.getRpcServer();
+      await server.getHealth();
+      return "ok";
+    } catch {
+      return "error";
+    }
+  }
 }
 
 export const sorobanService = new SorobanService();
